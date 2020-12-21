@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">E-221</a>
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/bien/all}"
+                >Biens
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+</nav>
+<!-- -----------------------------------------------------------NAV BAR -->
+<div class="">
+    <div class="text-center p-3">
+        <h1 class="display-3">Tous les biens</h1>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg"
+               href="#" role="button"
+            >Ajouter un bien</a
+            >
+        </p>
+    </div>
+</div>
+<!-- -----------------------------------------------------------CONTAINER -->
+<div class="container">
+    <div class="row">
+        <div th:each="bien:${biens}" class="col-sm-4 mb-4">
+            <div class="card" style="width: 18rem">
+                <img style="width: 350px; height: 200px;"
+                     class="card-img-top"
+                     th:src="@{'/images/'+${bien.photo}}"
+                     alt="Annonce 1"
+                />
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${bien.libelle}"></h5>
+                    <hr />
+                    <span class="float-left btn btn-sm text-center disabled"
+                          th:text="${bien.description}"></span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-sm-4 offset-sm-4">
+            <ul class="pagination pl-4">
+                <li class="page-item"
+                    th:classappend="${0 == pageNo} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="@{/bien/all(pageNo=${pageNo-1}, pageSize=${pageSize}, sortBy=id)}" th:text="Précedent"></a>
+                </li>
+                <li th:each="i: ${#numbers.sequence(1, nbPages)}"
+                    th:classappend="${(i-1) == pageNo} ? 'active' : ''"
+                    class="page-item">
+                    <a class="page-link" th:href="@{/bien/all(pageNo=${i-1}, pageSize=${pageSize}, sortBy=id)}" th:text="${i}"></a>
+                </li>
+                <li class="page-item"
+                    th:classappend="${nbPages-1 == pageNo} ? 'disabled' : ''">
+                    <a class="page-link"
+                       th:href="@{/bien/all(pageNo=${pageNo+1}, pageSize=${pageSize}, sortBy=id)}" th:text="Suivant"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
